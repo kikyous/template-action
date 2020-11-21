@@ -4,13 +4,13 @@ author: 'kikyous'
 inputs:
   template:
     required: false
-    description: 'template string'
+    description: 'doT template string'
     default: ''
-  template_path:
+  template-path:
     required: false
-    description: 'template file path'
+    description: 'doT template file path'
     default: ''
-  post_run:
+  post-run:
     required: false
     description: 'a shell command run after template has been rendered, use {{=it.output}} to get render result'
     default: ''
