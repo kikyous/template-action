@@ -3,6 +3,8 @@ import {context} from '@actions/github'
 import * as doT from "dot"
 import {exec} from "child_process"
 
+doT.templateSettings.strip = false;
+
 function run() {
   try {
     const template: string = core.getInput('template')
