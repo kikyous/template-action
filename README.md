@@ -2,7 +2,7 @@ A github action to render a template using github context
 
 # Input:
 * template: doT template string 
-* post-run: a shell command run after template has been rendered, can use {{= it.output }} to access template render result
+* post-run: [optional] a shell command run after template has been rendered, can use {{= it.output }} to access template render result
 
 # Output:
 * content: template render result
