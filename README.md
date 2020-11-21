@@ -34,3 +34,27 @@ jobs:
       - name: Get the render output
         run: echo "${{ steps.template.outputs.content }}"
 ```
+
+# Template syntax
+http://olado.github.io/doT/
+
+
+# Render context (it)
+you can explore `it` use below action 
+```yml
+name: Test
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kikyous/template-action@v1.0.0
+        id: template
+        with:
+          template: "{{=JSON.stringify(it, undefined, 2)}}"
+
+      - name: Get the render output
+        run: echo "${{ steps.template.outputs.content }}"
+```
