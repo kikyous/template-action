@@ -3,6 +3,7 @@ import {context} from '@actions/github'
 import * as doT from "dot"
 import {exec} from "child_process"
 import {readFileSync} from "fs"
+import {join} from 'path'
 
 doT.templateSettings.strip = false;
 
@@ -14,7 +15,8 @@ function run() {
 
     let tempFn = (c: any)=>{}
     if (templatePath) {
-      tempFn = doT.template(readFileSync(templatePath, 'utf8'))
+      const fullPath = join(process.env.GITHUB_WORKSPACE || '', templatePath);
+      tempFn = doT.template(readFileSync(fullPath, 'utf8'))
     } else {
       tempFn = doT.template(template);
     }
