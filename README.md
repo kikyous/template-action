@@ -37,8 +37,7 @@ jobs:
 ```
 
 # Template syntax
-http://olado.github.io/doT/
-
+https://github.com/mde/ejs
 
 # Render context
 you can explore `context` use below action 
