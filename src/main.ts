@@ -26,7 +26,14 @@ function run() {
     if (cmd) {
       const cmdTempFn = doT.template(cmd);
       const cmdText = cmdTempFn({output: resultText, context: context})
-      exec(cmdText)
+      exec(cmdText, function(error, stdout, stderr){
+        if (error) {
+          console.error(`error: ${error}`);
+          return;
+        }
+        core.info(stdout)
+        core.error(stderr)
+      })
     }
   } catch (error) {
     core.setFailed(error.message)
