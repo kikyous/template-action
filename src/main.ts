@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import {context} from '@actions/github'
 import * as doT from "dot"
 import {exec} from "child_process"
+import {readFileSync} from "fs"
 
 doT.templateSettings.strip = false;
 
@@ -9,14 +10,20 @@ function run() {
   try {
     const template: string = core.getInput('template')
     const cmd: string = core.getInput('post-run')
+    const templatePath: string = core.getInput('template-path')
 
-    const tempFn = doT.template(template);
-    const resultText = tempFn(context);
+    let tempFn = (c: any)=>{}
+    if (templatePath) {
+      tempFn = doT.template(readFileSync(templatePath, 'utf8'))
+    } else {
+      tempFn = doT.template(template);
+    }
+    const resultText = tempFn({context: context});
 
     core.setOutput('content', resultText)
     if (cmd) {
       const cmdTempFn = doT.template(cmd);
-      const cmdText = cmdTempFn({output: resultText})
+      const cmdText = cmdTempFn({output: resultText, context: context})
       exec(cmdText)
     }
   } catch (error) {
