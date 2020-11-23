@@ -3,7 +3,7 @@ A github action to render a ejs template using github context
 # Input:
 * template: [optional] ejs template string
 * template-path: [optional] ejs template file path
-* post-run: [optional] a shell command run after template has been rendered, can use {{= it.output }} to access template render result
+* post-run: [optional] a shell command run after template has been rendered, use <%= output %> to get template render result
 
 # Output:
 * content: template render result
