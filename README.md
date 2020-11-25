@@ -3,7 +3,7 @@ A github action to render a ejs template using github context
 # Input:
 * template: [optional] ejs template string
 * template-path: [optional] ejs template file path
-* post-run: [optional] a shell command run after template has been rendered, use <%= output %> to get template render result
+* post-run: [optional] a shell command run after template has been rendered, use <%- output %> to get template render result
 
 # Output:
 * content: template render result
@@ -23,12 +23,12 @@ jobs:
         with:
           template: "<% context.payload.commits.forEach(function(c){ %>[✅ <%= c.message %>](<%= c.url %>)\n<% }); %>> commiter: <%= context.payload.head_commit.author.name %>
           post-run: |
-            curl '${{ secrets.WECHAT_WORK_WEBHOOK_URL }}' \
+            curl '${{ secrets.WECHAT_WORK_WEBHOOK_URL }}' -s \
             -H 'Content-Type: application/json' \
             -d '{
               "msgtype": "markdown",
               "markdown": {
-                  "content": "<%= output %>"
+                  "content": "<%- output %>"
               }
             }'
 
@@ -53,7 +53,7 @@ jobs:
       - uses: kikyous/template-action@v2.0.0
         id: template
         with:
-          template: "<%= JSON.stringify(context, undefined, 2) %>"
+          template: "<%- JSON.stringify(context, undefined, 2) %>"
 
       - name: Get the render output
         run: echo "${{ steps.template.outputs.content }}"
