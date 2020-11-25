@@ -1,20 +1,27 @@
 import * as core from '@actions/core'
 import {context} from '@actions/github'
-import {render} from 'ejs'
+import {render, renderFile, Options} from 'ejs'
 import {exec} from "child_process"
-import {readFileSync} from "fs"
 import {join} from 'path'
 
-function run() {
+const renderOptions: Options & { async: false } = {
+  outputFunctionName: 'echo',
+  async: false
+}
+
+async function run() {
   try {
-    let template: string = core.getInput('template')
-    const cmd: string = core.getInput('post-run')
-    const templatePath: string = core.getInput('template-path')
+    let template: string = core.getInput('template');
+    const cmd: string = core.getInput('post-run');
+    const templatePath: string = core.getInput('template-path');
+    let resultText: string;
+
     if (templatePath) {
       const fullPath = join(process.env.GITHUB_WORKSPACE || '', templatePath);
-      template = readFileSync(fullPath, 'utf8')
+      resultText = await renderFile(fullPath, {context: context}, renderOptions)
+    } else {
+      resultText = render(template, {context: context}, renderOptions)
     }
-    const resultText = render(template, {context: context})
 
     core.setOutput('content', resultText)
     if (cmd) {
