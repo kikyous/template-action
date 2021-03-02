@@ -14,9 +14,17 @@ async function run() {
     let template: string = core.getInput('template')
     const cmd: string = core.getInput('post-run')
     const templatePath: string = core.getInput('template-path')
+    let _extInputs: string = core.getInput('ext-inputs')
+    let extInputs = {};
+    try {
+      extInputs = JSON.parse(_extInputs)
+    } catch {
+      extInputs = {text: extInputs}
+    }
+
     let resultText: string
 
-    const renderContext = {context: context, require: require}
+    const renderContext = {context: context, require: require, extInputs}
 
     if (templatePath) {
       const fullPath = join(process.env.GITHUB_WORKSPACE || '', templatePath)

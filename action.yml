@@ -10,6 +10,10 @@ inputs:
     required: false
     description: 'doT template file path'
     default: ''
+  ext-inputs:
+    required: false
+    description: 'extend inputs for template render'
+    default: '{}'
   post-run:
     required: false
     description: 'a shell command run after template has been rendered, use {{=it.output}} to get render result'
