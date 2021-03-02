@@ -19,7 +19,7 @@ async function run() {
     try {
       extInputs = JSON.parse(_extInputs)
     } catch {
-      extInputs = {text: extInputs}
+      extInputs = {text: _extInputs}
     }
 
     let resultText: string
